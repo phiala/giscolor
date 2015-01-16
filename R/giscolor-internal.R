@@ -1,0 +1,2 @@
+.giscolordata <-
+<environment>
