@@ -1,63 +1,42 @@
 \name{gis.pal.info}
 \alias{gis.pal.info}
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-%%  ~~function to do ... ~~
+Print information about all built-in GIS palettes, or print a single palette.
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
-}
+Displays a list of GIS palettes included with the \code{giscolor} package, or prints
+complete information for one palette.}
 \usage{
-gis.pal.info()
+gis.pal.info(name)
 }
 %- maybe also 'usage' for other objects documented here.
-\details{
-%%  ~~ If necessary, more details than the description above ~~
+\arguments{
+  \item{name}{
+Optional name of a single palette, either created locally or included with
+the giscolor package.
 }
+}
+\details{
+If no name is provided, this function will print information about all the GIS
+palettes included with the \code{giscolor} package. If a name is provided, first the
+local environment, then the palettes included with \code{giscolor} will be searched.}
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+Returns either a data frame listing all of the built-in GIS palettes, or a
+data frame containing the specific information for a single palette.
 }
 \references{
-%% ~put references to the literature/web site here ~
+The palettes included are adapted from the GRASS 7.0 color tables
+\url{https://grasswiki.osgeo.org/wiki/Color_tableshttps://grasswiki.osgeo.org/wiki/Color_tables}.
 }
 \author{
-%%  ~~who you are~~
+Sarah Goslee
 }
-\note{
-%%  ~~further notes~~
-}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+\code{\link{display.gis.pal}}
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-function () 
-{
-    filelist <- ls(envir = .giscolordata)
-    results <- data.frame(name = filelist, length = NA, npct = NA, 
-        min = NA, max = NA, stringsAsFactors = FALSE)
-    for (i in seq_along(filelist)) {
-        thispal <- get(filelist[i], envir = .giscolordata)
-        results$length[i] <- nrow(thispal)
-        results$npct[i] <- sum(thispal$pct)
-        results$min[i] <- min(thispal$value)
-        results$max[i] <- max(thispal$value)
-    }
-    results
-  }
+gis.pal.info() # all GIS palettes
+gis.pal.info("wave") # details of the wave palette
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ color } 
