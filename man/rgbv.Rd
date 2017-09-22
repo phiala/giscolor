@@ -2,63 +2,34 @@
 \alias{rgbv}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-%%  ~~function to do ... ~~
+Convert RGB notation to a hexadecimal color string.
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+Converts a RGB string in either colon-separated or vector format to hexadecimal equivalent.
 }
 \usage{
 rgbv(colvec, maxColorValue = 255)
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{colvec}{
-%%     ~~Describe \code{colvec} here~~
+  A colon-separated RGB string or a three-element RGB vector.
 }
   \item{maxColorValue}{
-%%     ~~Describe \code{maxColorValue} here~~
+  The maximum value for the RGB elements, usually the default of 255.
 }
-}
-\details{
-%%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
-}
-\references{
-%% ~put references to the literature/web site here ~
+A hexadecimal color string.
 }
 \author{
-%%  ~~who you are~~
+Sarah Goslee
 }
-\note{
-%%  ~~further notes~~
-}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+\code{\link{rgbname}}, \code{\link{rgb}}
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-function (colvec, maxColorValue = 255) 
-{
-    if (is.matrix(colvec)) {
-        colvec <- as.vector(colvec)
-    }
-    rgb(colvec[1], colvec[2], colvec[3], maxColorValue = maxColorValue)
-  }
+rgbv("0:255:230")
+rgbv(c(0, 255, 230))
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ color }
