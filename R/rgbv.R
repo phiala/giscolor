@@ -2,6 +2,8 @@ rgbv <-
 function(colvec, maxColorValue = 255) {
 	# convert a vector or matrix of RGB values to hexadecimal
 	# like rgb(), but less picky about inputs
+	if(grepl(":", colvec[1]))
+		colvec <- strsplit(colvec, ":")[[1]]
 	if(is.matrix(colvec)) {
 		colvec <- as.vector(colvec)
 	}
