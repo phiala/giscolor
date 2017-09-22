@@ -51,7 +51,7 @@ display.gis.pal(pal=gis.pal("gyr", n=28, zlim=c(0,1)))
 
 The color column can be extracted from a palette data frame, or the palette can be used with gisimage() as a replacement for image().
 
-### Simple example 1
+### Simple example
 
 ```
 mat1 <- matrix(runif(100), 10, 10)
@@ -63,7 +63,7 @@ gisimage(mat1, pal1, legend=FALSE)
 display.gis.pal(pal=pal1)
 ```
 
-### Simple example 2
+### Less simple example
 
 Palettes do not have to be linear gradients.
 
@@ -78,7 +78,7 @@ gisimage(mat1, pal2, legend=FALSE)
 display.gis.pal(pal=pal2)
 ```
 
-### divergent colors
+### Divergent colors
 
 ```
 mat <- matrix(sample(seq(-5, 8), 100, replace=TRUE), 10, 10)
