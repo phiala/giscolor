@@ -21,15 +21,15 @@ or all palettes, five at a time:
 
 ```display.gis.pals()```
 
-To import a GRASS-styled color palette
-samplepal <- read.gis.pal(text =
+To import a GRASS-styled color palette:
+
+```samplepal <- read.gis.pal(text =
 "0 black
 10% yellow
 78 blue
 100% 0:255:230,
 nv white")
-
-display.gis.pal(pal=samplepal) ```
+display.gis.pal(pal=samplepal)```
 
 
 Note that this ignores the nv no value color, as NA values are handled differently in R than GRASS.
