@@ -87,6 +87,7 @@ gisimage(mat, pal=div.pal, legend=FALSE)
 ```  
 
 ### Spatial Grid Data Frame example
+
 ```
 library(sp)
 data(meuse.grid)
