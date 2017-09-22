@@ -84,7 +84,7 @@ display.gis.pal(pal=pal2)
 mat <- matrix(sample(seq(-5, 8), 100, replace=TRUE), 10, 10)
 div.pal <- gis.pal("differences", n=11, zlim=c(-8, 8))
 gisimage(mat, pal=div.pal, legend=FALSE)
-```  
+```
 
 ### Spatial Grid Data Frame example
 
