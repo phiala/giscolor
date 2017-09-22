@@ -1,16 +1,15 @@
 gis.pal <-
-function(name, n=NA, zlim=NA, raw=FALSE) {
-    # get GRASS GIS palette and expand to given number of colors
-    # syntax matches RColorBrewer:brewer.pal
+function(name, pal, n=NA, zlim=NA) {
+    # get GRASS GIS palette and expand to given number of colors and range
+    # syntax matches RColorBrewer::brewer.pal
     # GRASS color palettes can have percent mixed with qualitative values
 
-    thispal <- try(get(name, envir=.giscolordata), silent=TRUE)
-    if(class(thispal) == "try-error")
-        stop("That palette does not exist.\n")
-
-    if(raw == TRUE) {
-        #supersedes all other options
-        return(thispal)
+    if(!missing(name)) {
+      thispal <- try(get(name, envir=.giscolordata), silent=TRUE)
+      if(class(thispal) == "try-error")
+          stop("The palette", name, "does not exist.\n")
+    } else {
+      thispal <- pal
     }
 
     if(sum(thispal$pct) > 0) {
@@ -28,39 +27,34 @@ function(name, n=NA, zlim=NA, raw=FALSE) {
         n <- nrow(thispal)
     }
 
-    
-    if(n == nrow(thispal)) {
-        return(thispal)
-    } else {
-        if(n < nrow(thispal)) {
-            stop("This palette has ", nrow(thispal), " colors and cannot be reduced.\n")
-        } else {
-            if(n > nrow(thispal)) {
-                # expand palette to n values
-                n.add <- n - nrow(thispal)
-                n.gaps <- (nrow(thispal) - 1)
-                gaps <- rep(round(n.add / n.gaps), n.gaps)
-                gaps[1] <- gaps[1] + (n.add - sum(gaps)) # fix rounding error
-
-                i <- 1
-                newcol <- colorRampPalette(thispal$color[i:(i+1)])(gaps[i]+2)
-                newval <- seq(thispal$value[i], thispal$value[i+1], length=gaps[i]+2)
-
-                if(n.gaps > 1) {
-                    for(i in 2:n.gaps) {
-                        newcol <- c(newcol, colorRampPalette(thispal$color[i:(i+1)])(gaps[i]+2)[-1])
-                        newval <- c(newval, seq(thispal$value[i], thispal$value[i+1], length=gaps[i]+2)[-1])
-                    }
-                }
-            }
-        }
+    if(n < nrow(thispal)) {
+        stop("This palette has ", nrow(thispal), " colors and cannot be reduced.\n")
     }
 
+    if(n > nrow(thispal)) {
+      # use brute-force method to create a smooth gradient
 
-    
+      # divide each original gap between colors into m steps
+      orig.n <- nrow(thispal)
+      n.gaps <- orig.n  - 1
+      newval <- vector(n.gaps, mode="list")
+      newcol <- newval
+      for(this.gap in seq_len(n.gaps)) {
+        startcol <- thispal$color[this.gap]
+        endcol <- thispal$color[this.gap + 1]
+        newval[[this.gap]] <- seq(thispal$value[this.gap], thispal$value[this.gap + 1], length=n)[-1]
+        newcol[[this.gap]] <- grDevices::colorRampPalette(thispal$color[this.gap:(this.gap+1)])(n)[-1]
+      }
+      newval <- c(thispal$value[1], do.call(c, newval))
+      newcol <- c(thispal$color[1], do.call(c, newcol))
+      newval <- newval[seq(1, length(newval), length=n)]
+      newcol <- newcol[seq(1, length(newcol), length=n)]
+      thispal <- data.frame(value=newval, pct=FALSE, color=newcol, stringsAsFactors=FALSE)
+    }
+
     # GRASS colortables can have duplicated values to indicate discontinuities
     # don't treat value and percent as one group
-    newval[duplicated(newval)] <- newval[duplicated(newval)] + abs(max(newval))*0.000001
+    thispal$value[duplicated(thispal$value)] <- thispal$value[duplicated(thispal$value)] + abs(max(thispal$value))*0.000001
 
-    data.frame(value=newval, pct=FALSE, color=newcol, stringsAsFactors=FALSE)
-}
+    thispal
+} 
