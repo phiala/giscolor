@@ -57,4 +57,4 @@ function(name, pal, n=NA, zlim=NA) {
     thispal$value[duplicated(thispal$value)] <- thispal$value[duplicated(thispal$value)] + abs(max(thispal$value))*0.000001
 
     thispal
-} 
+}
