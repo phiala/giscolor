@@ -50,4 +50,4 @@ function(filename, text) {
 	})
     names(color) <- NULL
     data.frame(value, pct, color, stringsAsFactors=FALSE)
-} 
+}
